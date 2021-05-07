@@ -24,11 +24,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/test", testRouter);
 
-var models_path = pathFs.join(__dirname, 'models');
+var models_path = pathFs.join(__dirname, 'model');
 
 var requiredFile = function (path, regex) {
   const files = fs.readdirSync(path);
-  files.forEach((file) {
+  files.forEach((file) => {
     const newPath = path + '/' + file;
     const stat = fs.statSync(newPath);
     if (stat.isFile()){
