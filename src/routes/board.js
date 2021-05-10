@@ -1,7 +1,8 @@
 const express = require('express');
 const Board = require("../models/board.model");
 const router = express.Router();
-
+var {validationResult} = require('express-validator');
+const validator = require("../middlewares/validator");
 //get all board
 router.get('/', async function(req, res, next) {
     try {
@@ -23,7 +24,7 @@ router.get('/', async function(req, res, next) {
 router.get('/:id', async function(req, res, next){
     try {
         const boardID = req.params.id;
-        const board = await Board.findById({boardID})
+        const board = await Board.findById(boardID)
         .populate({ path : "created_by" })
         res.status(200).json({
             data: board,
@@ -38,14 +39,21 @@ router.get('/:id', async function(req, res, next){
 });
 
 //create board 
-router.post('/create', async function(req, res, next){
+router.post('/create', validator.validateBoard() ,async function(req, res, next){
     try {
-        const board = await Board.create(req.body);
-        res.status(200).json({
-            data: board,
-            message : "created board successfully !",
-        })
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+            return;
+        }else {
+            const board = await Board.create(req.body);
+            res.status(200).json({
+                data: board,
+                message : "created board successfully !",
+            })
+        }
     } catch (error) {
+        console.log(error, '[err]');
         res.status(500).json({
             error,
             message : "created board fail !",
@@ -54,17 +62,22 @@ router.post('/create', async function(req, res, next){
 });
 
 //update board 
-router.put("/update/:id", async function(req, res, next){
+router.put("/update/:id", validator.validateBoard(), async function(req, res, next){
     try {
-        const boardID = req.params.id;
-        const boardUpdate = req.body;
-        const board = await Board.findOneAndUpdate(
-            { _id: boardID },{$set : boardUpdate}
-        );
-        res.status(200).json({
-            data : board,
-            message : "update board successfully !"
-        });
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+            return;
+        }else {
+            const boardID = req.params.id;
+            const boardUpdate = req.body;
+            const board = await Board.findOneAndUpdate({ _id: boardID }, {$set : boardUpdate});
+            console.log(board, '[board]');
+            res.status(200).json({
+                data : board,
+                message : "update board successfully !"
+            });
+        }
     } catch (err) {
         res.status(500).json({ error: err });
     }
