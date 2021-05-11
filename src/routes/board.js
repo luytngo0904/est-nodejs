@@ -13,7 +13,7 @@ router.get('/', async function(req, res, next) {
             message : "get all board successfully !",
         }) 
     } catch (error) {
-        res.status(500).json({
+        res.status(400).json({
             error,
             message : "get all board fail !",
         })
@@ -28,12 +28,12 @@ router.get('/:id', async function(req, res, next){
         .populate({ path : "created_by" })
         res.status(200).json({
             data: board,
-            message : "get board id successfully !",
+            message : "get board details successfully !",
         })
     } catch (error) {
-        res.status(500).json({
+        res.status(400).json({
             error,
-            message : "get board id fail !",
+            message : "get board details fail !",
         })
     }
 });
@@ -45,16 +45,15 @@ router.post('/create', validator.validateBoard() ,async function(req, res, next)
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
             return;
-        }else {
-            const board = await Board.create(req.body);
-            res.status(200).json({
-                data: board,
-                message : "created board successfully !",
-            })
         }
+        const board = await Board.create(req.body);
+        res.status(200).json({
+            data: board,
+            message : "created board successfully !",
+        })
     } catch (error) {
         console.log(error, '[err]');
-        res.status(500).json({
+        res.status(400).json({
             error,
             message : "created board fail !",
         })
@@ -68,18 +67,16 @@ router.put("/update/:id", validator.validateBoard(), async function(req, res, ne
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
             return;
-        }else {
-            const boardID = req.params.id;
-            const boardUpdate = req.body;
-            const board = await Board.findOneAndUpdate({ _id: boardID }, {$set : boardUpdate});
-            console.log(board, '[board]');
-            res.status(200).json({
-                data : board,
-                message : "update board successfully !"
-            });
         }
+        const boardID = req.params.id;
+        const boardUpdate = req.body;
+        const board = await Board.findOneAndUpdate({ _id: boardID }, {$set : boardUpdate});
+        res.status(200).json({
+            data : board,
+            message : "update board successfully !"
+        });
     } catch (err) {
-        res.status(500).json({ error: err });
+        res.status(400).json({ error: err });
     }
 });
 
@@ -92,7 +89,7 @@ router.delete("/delete/:id", async function(req, res, next){
             message : "deleted board successfully !"
         })
     } catch (error) {
-        res.status(500).json({
+        res.status(400).json({
             message : "deleted board fail !",
         })
     }
