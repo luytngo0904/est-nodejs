@@ -39,7 +39,7 @@ router.get('/:id', async function(req, res, next){
 });
 
 //create board 
-router.post('/create', validator.validateBoard() ,async function(req, res, next){
+router.post('/', validator.validateBoard() ,async function(req, res, next){
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -52,7 +52,6 @@ router.post('/create', validator.validateBoard() ,async function(req, res, next)
             message : "created board successfully !",
         })
     } catch (error) {
-        console.log(error, '[err]');
         res.status(400).json({
             error,
             message : "created board fail !",
@@ -61,7 +60,7 @@ router.post('/create', validator.validateBoard() ,async function(req, res, next)
 });
 
 //update board 
-router.put("/update/:id", validator.validateBoard(), async function(req, res, next){
+router.put("/:id", validator.validateBoard(), async function(req, res, next){
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -81,7 +80,7 @@ router.put("/update/:id", validator.validateBoard(), async function(req, res, ne
 });
 
 //delete board
-router.delete("/delete/:id", async function(req, res, next){
+router.delete("/:id", async function(req, res, next){
     try {
         let boardID = req.params.id;
         await Board.findByIdAndDelete({_id : boardID});

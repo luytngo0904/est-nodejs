@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/", indexRouter);
 app.use("/test", testRouter);
-app.use("/api/board", boardRouter);
+app.use("/api/boards", boardRouter);
 
 var models_path = pathFs.join(__dirname, 'models');
 
