@@ -7,7 +7,7 @@ var fs = require("fs");
 var pathFs = require("path");
 
 var indexRouter = require("./routes/index");
-var boardRouter = require("./routes/board");
+var boardRouter = require("./routes/boards");
 var testRouter = require("./routes/test");
 
 var app = express();
