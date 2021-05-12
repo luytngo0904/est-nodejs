@@ -7,6 +7,7 @@ var fs = require("fs");
 var pathFs = require("path");
 
 var indexRouter = require("./routes/index");
+var boardRouter = require("./routes/boards");
 var testRouter = require("./routes/test");
 
 var app = express();
@@ -21,10 +22,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
+app.use("/api/", indexRouter);
 app.use("/test", testRouter);
+app.use("/api/boards", boardRouter);
 
-var models_path = pathFs.join(__dirname, 'model');
+var models_path = pathFs.join(__dirname, 'models');
 
 var requiredFile = function (path, regex) {
   const files = fs.readdirSync(path);
