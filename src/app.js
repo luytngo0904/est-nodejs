@@ -8,6 +8,8 @@ var pathFs = require("path");
 
 var indexRouter = require("./routes/index");
 var testRouter = require("./routes/test");
+var listRouter = require("./routes/list");
+var taskRouter = require("./routes/task");
 
 var app = express();
 
@@ -23,7 +25,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/test", testRouter);
-
+app.use("/list",listRouter);
+app.use("/task",taskRouter);
 var models_path = pathFs.join(__dirname, 'model');
 
 var requiredFile = function (path, regex) {
