@@ -13,7 +13,9 @@ router.get('/', async function(req, res, next) {
             message : "get all board successfully !",
         }) 
     } catch (error) {
+        console.log(error)
         res.status(400).json({
+
             error,
             message : "get all board fail !",
         })

@@ -19,7 +19,7 @@ var mongoose = require("mongoose");
 async function run() {
   // await mongoose.connect();
   await mongoose.connect(
-    process.env.MONGODB_URL || "mongodb://localhost:27017/kanban",
+    // process.env.MONGODB_URL || "mongodb://localhost:27017/kanban",
     process.env.MONGODB_URL || "mongodb://localhost:27017/KanbanBoards",
     { useNewUrlParser: true, useUnifiedTopology: true }
   );
