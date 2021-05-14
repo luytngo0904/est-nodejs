@@ -8,8 +8,8 @@ var pathFs = require("path");
 
 var indexRouter = require("./routes/index");
 var testRouter = require("./routes/test");
-var listRouter = require("./routes/list");
-var taskRouter = require("./routes/task");
+var listRouter = require("./routes/lists");
+var taskRouter = require("./routes/tasks");
 
 var app = express();
 

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var ListModel = require('../model/list.model');
+var ListModel = require('../models/list.model');
 
 // get all list 
 router.get("/",async function(req, res,next){
