@@ -7,9 +7,15 @@
 var app = require("../src/app");
 var debug = require("debug")("est-nodejs:server");
 var http = require("http");
+
 require("dotenv").config();
 var mongoose = require("mongoose");
 
+// var dotenv = require("dotenv");
+require("dotenv").config();
+var mongoose = require("mongoose");
+
+// dotenv.config();
 async function run() {
   // await mongoose.connect();
   await mongoose.connect(

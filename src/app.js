@@ -12,7 +12,6 @@ var testRouter = require("./routes/test");
 var listRouter = require("./routes/lists");
 var taskRouter = require("./routes/tasks");
 
-
 var app = express();
 
 // view engine setup
