@@ -26,14 +26,12 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/", indexRouter);
 app.use("/test", testRouter);
-
 app.use("/list",listRouter);
 app.use("/task",taskRouter);
 var models_path = pathFs.join(__dirname, 'model');
 app.use("/api/boards", boardRouter);
 
 var models_path = pathFs.join(__dirname, 'models');
-
 
 var requiredFile = function (path, regex) {
   const files = fs.readdirSync(path);
