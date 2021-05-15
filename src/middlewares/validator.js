@@ -7,4 +7,12 @@ module.exports.validateBoard = () => {
     ]; 
 }
 
+module.exports.validateAuth = () => {
+    return [
+        check('email', 'email dose not Empty').not().isEmpty(),
+        check('email', 'Invalid email').isEmail(),
+        check('newpass', 'new password dose not Empty').not().isEmpty(),
+        check('newpass', 'password more than 6 degits').isLength({ min: 6 })
+    ]
+}
    
