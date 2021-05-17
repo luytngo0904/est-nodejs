@@ -7,4 +7,12 @@ module.exports.validateBoard = () => {
     ]; 
 }
 
+module.exports.validateList = () => {
+    return [ 
+        check('list_index', 'list_index cannot Empty').not().isEmpty(),
+        check('name', 'name cannot Empty').not().isEmpty(),
+        check('board_id', 'board_id cannot Empty').not().isEmpty(),
+    ]; 
+}
+
    

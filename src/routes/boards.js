@@ -54,6 +54,7 @@ router.post('/', validator.validateBoard() ,async function(req, res, next){
             message : "created board successfully !",
         })
     } catch (error) {
+        console.log(error)
         res.status(400).json({
             error,
             message : "created board fail !",

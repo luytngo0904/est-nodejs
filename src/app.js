@@ -30,8 +30,8 @@ app.use("/test", testRouter);
 // app.use("/task",taskRouter);
 var models_path = pathFs.join(__dirname, 'model');
 app.use("/api/boards", boardRouter);
-app.use("/api/list",listRouter);
-app.use("/api/task",taskRouter);
+app.use("/api/lists",listRouter);
+app.use("/api/tasks",taskRouter);
 
 
 var models_path = pathFs.join(__dirname, 'models');

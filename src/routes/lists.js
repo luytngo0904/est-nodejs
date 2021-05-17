@@ -2,6 +2,11 @@ var express = require('express');
 var router = express.Router();
 var ListModel = require('../models/list.model');
 
+
+var {validationResult} = require('express-validator');
+const validator = require("../middlewares/validator");
+
+
 // get all list 
 router.get("/",async function(req, res,next){
     try {
@@ -24,6 +29,7 @@ router.get("/:id",async function(req, res, next){
     try {
         const id = req.params.id;
         const  list = await ListModel.findById(id);
+        // .populate({path:"board_id"});
         res.status(200).json({
             data:list,
             message:"get list by id successfully!"
@@ -37,8 +43,14 @@ router.get("/:id",async function(req, res, next){
     }
 })
 // create list
-router.post("/", async function(req, res, next){
+router.post("/", validator.validateBoard(), async function(req, res, next){
     try {
+        const errors = validationResult(res);
+        console.log("create error:",errors);
+        if(!errors.isEmpty()){
+            res.status(422).json({ errors: errors.array() });
+            return;
+        }
         const list = await ListModel.create(req.body)
         res.status(200).json({
             data:list,
@@ -52,15 +64,24 @@ router.post("/", async function(req, res, next){
         })
     }
 })
-router.put("/:id",async function(req, res,next){
+
+//update list
+router.put("/:id", validator.validateList(),async function(req, res,next){
     try {
+        const errors = validationResult(req);
+        console.log("update error:",errors);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+            return;
+        }
+
         const id = req.params.id;
         const updateList = req.body; 
         const list = await ListModel.findByIdAndUpdate(
             {_id:id},
-            updateList,
-            {new:true}
-        )
+            {$set:updateList}
+            // {new:true}
+        );
         res.status(200).json({
             data:list,
             message: "update list successfully!"
