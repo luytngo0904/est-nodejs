@@ -20,6 +20,9 @@ const userSchema = new Schema({
     role_id : {
         type : String,
         ref : ""
+    },
+    token : {
+        type : String
     }
 });
 
