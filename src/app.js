@@ -11,6 +11,7 @@ var boardRouter = require("./routes/boards");
 var testRouter = require("./routes/test");
 var listRouter = require("./routes/lists");
 var taskRouter = require("./routes/tasks");
+var loginRouter = require("./routes/login");
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use("/login",loginRouter);
 app.use("/api/", indexRouter);
 app.use("/test", testRouter);
 // app.use("/list",listRouter);
