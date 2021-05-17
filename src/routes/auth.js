@@ -9,7 +9,7 @@ var { validationResult } = require('express-validator');
 const bcrypt = require("bcrypt");
 const bcrypt_salt = process.env.BCRYPT_SALT;
 
-router.post("/forgot-password", async function(req, res, next){
+router.post("/forgot-password/:userID", async function(req, res, next){
     try {
         const email = req.body.email;
         const user = await User.findOne({email});
