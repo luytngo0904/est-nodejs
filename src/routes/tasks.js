@@ -1,5 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var {validationResult} = require('express-validator');
+const validator = require("../middlewares/validator");
+
+
 var TaskModel = require('../models/task.model');
 
 // get all task
@@ -38,8 +42,14 @@ router.get("/:id",async function(req, res, next){
     }
 })
 // create task
-router.post("/",async function(req, res, next){
+router.post("/",validator.validateTask(),async function(req, res, next){
     try {
+        const errors = validationResult(res);
+        console.log("create error:",errors);
+        if(!errors.isEmpty()){
+            res.status(422).json({ errors: errors.array() });
+            return;
+        }
         const task = await TaskModel.create(req.body);
         res.status(200).json({
             data:task,
@@ -68,15 +78,23 @@ router.delete("/:id",async function(req, res, next){
         })
     }
 })
-router.put("/:id",async function(req, res, next){
+
+// update task
+router.put("/:id",validator.validateTask(),async function(req, res, next){
     try{
+        const errors = validationResult(res);
+        console.log("update error:",errors);
+        if(!errors.isEmpty()){
+            res.status(422).json({ errors: errors.array() });
+            return;
+        }
+
         const id = req.params.id;
         const updateTask = req.body;
         console.log(updateTask);
         const task = await TaskModel.findByIdAndUpdate(
             {_id:id},   
-            updateTask,
-            {new:true}
+            {$set:updateTask}
         );
         res.status(200).json({
             data:task,

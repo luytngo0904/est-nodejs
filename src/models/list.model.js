@@ -3,7 +3,7 @@ const {Schema} = mongoose;
 
 const listSchema = new Schema({
     list_index:{
-        type:String,
+        type:Number,
         required:true,
         default:0
     },
