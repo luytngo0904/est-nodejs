@@ -6,30 +6,30 @@ router.use(express.json())
 const jwt =require("jsonwebtoken");
 const verifyToken = require("../middlewares/auth");
 
-const users = [
-    {
-        id:1,
-        username:"huy"
-    }
-
-]
-
+// const users = [
+//     {
+//         id:1,
+//         username:"huy"
+//     }
+// ]
 
 router.get('/',verifyToken,(req, res, next)=>{
-    res.json({posts:"hello"})
+    
+    res.json({posts:"chấp nhận token!"})
 })
 router.post('/',(req, res)=>{
-    const inputUsername = req.body.username;
-    const user = users.find(user => user.username===inputUsername);
-    console.log(user);
-    if(!user) return res.sendStatus(401)
-
-    const accessToken = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET
-    //     {
-    //     expiresIn:"60s"
-    // }
-    )
-    res.json({accessToken})
     
+    try {
+        const inputUsername = req.body.username;
+        const user = users.find(user => user.username===inputUsername);    
+        const accessToken = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET)
+            console.log(user);
+            res.status(200).json({accessToken})
+    } catch (error) {
+        log.error(error)
+        res.status(401).json({
+            error,
+        })
+    }
 } )
 module.exports = router;

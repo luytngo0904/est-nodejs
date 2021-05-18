@@ -1,18 +1,25 @@
 const jwt = require("jsonwebtoken")
 
 const verifyToken = (req, res, next)=>{
-    const authHeader = req.header('Authorization')
-    const token  = authHeader && authHeader.split(" ")[1]
+    const authHeader = req.header("Authorization")
+    const token = authHeader && authHeader.split(" ")[1]
+    console.log(token);
 
-    if(!token) return res.sendStatus(401)
-
+    if(!token) return res.status(401).json({
+        message : "did not receive token!",
+    })
+    
     try {
-        const decoded = jwt.verify(token, process.en.ACCESS_TOKEN_SECRET)
-        console.log(decode)
-        next()
+       const decode =  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+        console.log(decode);
+        next();
     } catch (error) {
         console.log(error);
-        return res.sendStatus(403)        
+        res.status(403).json({
+            error
+        })        
     }
+
+
 }
-module.exports =verifyToken
+module.exports = verifyToken;
