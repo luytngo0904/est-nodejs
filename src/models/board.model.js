@@ -12,7 +12,6 @@ const boardSchema = new Schema({
     },
     role_in_board : [
         {
-            
             userID : {
                 type : Schema.Types.ObjectId,
                 ref : "user"

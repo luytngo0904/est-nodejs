@@ -9,7 +9,6 @@ var pathFs = require("path");
 var indexRouter = require("./routes/index");
 var testRouter = require("./routes/test");
 var boardRouter = require("./routes/boards");
-var authRouter = require("./routes/auth");
 
 
 
@@ -29,7 +28,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/", indexRouter);
 app.use("/test", testRouter);
 app.use("/api/boards", boardRouter);
-app.use("/api/auth", authRouter)
 
 var models_path = pathFs.join(__dirname, 'models');
 

@@ -1,7 +1,9 @@
 const express = require('express');
+const _ = require("lodash");
 const Board = require("../models/board.model");
+const User = require("../models/user.model");
 const router = express.Router();
-const {validationResult} = require('express-validator');
+const {validationResult, check} = require('express-validator');
 const validator = require("../middlewares/validator");
 const permissionBoard = require("../middlewares/permission");
 //get all board
@@ -93,6 +95,38 @@ router.delete("/:id", permissionBoard.checkPermission(["owner"]), async function
     } catch (error) {
         res.status(400).json({
             message : "deleted board fail !",
+        })
+    }
+})
+
+router.post("/invite",  permissionBoard.checkPermission(["owner", "admin"]), async (req, res, next) => {
+    try {
+        const { email, boardID } = req.body;
+        const user = await User.findOne({email});
+        const board = await Board.findOne({_id : boardID});
+        const checkMemberExists = board.role_in_board.find((el) => el.userID.toString() === user._id.toString());
+        if(checkMemberExists){
+            return res.status(400).json({
+                error : "",
+                message : "member already exists"
+            })
+        }
+        await Board.findOneAndUpdate({_id : boardID}, {
+            $push : {
+                role_in_board : {
+                    userID : user._id
+                }
+            }
+        })
+        res.status(200).json({
+            data : "",
+            message : "invite member successfully"
+        })
+      
+    } catch (error) {
+        res.status(400).json({
+            error,
+            message : "invite member fail or member already exists"
         })
     }
 })
