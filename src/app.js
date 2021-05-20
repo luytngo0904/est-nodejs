@@ -11,6 +11,8 @@ var testRouter = require("./routes/test");
 var boardRouter = require("./routes/boards");
 var authRouter = require("./routes/auth");
 
+
+
 var app = express();
 
 // view engine setup
@@ -22,6 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
 
 app.use("/api/", indexRouter);
 app.use("/test", testRouter);

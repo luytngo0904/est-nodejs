@@ -25,10 +25,9 @@ router.post("/forgot-password/:userID", async function(req, res, next){
         if (token) await token.deleteOne();
 
         const resetToken = jwt.sign({_id : user._id}, process.env.RESET_PASSWORD_KEY, {expiresIn : "20m"});
-        const hash = await bcrypt.hash(resetToken, Number(bcrypt_salt));
         await new Token({
             userID : user._id,
-            token : hash
+            token : resetToken
         }).save();
 
         const transporter = nodemailer.createTransport({

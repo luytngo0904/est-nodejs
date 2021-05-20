@@ -1,13 +1,15 @@
 const express = require('express');
 const Board = require("../models/board.model");
 const router = express.Router();
-var {validationResult} = require('express-validator');
+const {validationResult} = require('express-validator');
 const validator = require("../middlewares/validator");
+const permissionBoard = require("../middlewares/permission");
 //get all board
 router.get('/', async function(req, res, next) {
     try {
         const boards = await Board.find()
-        .populate({ path : "created_by" });
+        .populate({ path : "created_by" })
+        .populate({ path : "role_in_board", populate : { path : "userID"}})
         res.status(200).json({
             data: boards,
             message : "get all board successfully !",
@@ -26,6 +28,7 @@ router.get('/:id', async function(req, res, next){
         const boardID = req.params.id;
         const board = await Board.findById(boardID)
         .populate({ path : "created_by" })
+        .populate({ path : "role_in_board", populate : { path : "userID"}})
         res.status(200).json({
             data: board,
             message : "get board details successfully !",
@@ -60,7 +63,7 @@ router.post('/', validator.validateBoard() ,async function(req, res, next){
 });
 
 //update board 
-router.put("/:id", validator.validateBoard(), async function(req, res, next){
+router.put("/:id", permissionBoard.checkPermission(["owner"]) , validator.validateBoard(), async function(req, res, next){
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -80,7 +83,7 @@ router.put("/:id", validator.validateBoard(), async function(req, res, next){
 });
 
 //delete board
-router.delete("/:id", async function(req, res, next){
+router.delete("/:id", permissionBoard.checkPermission(["owner"]), async function(req, res, next){
     try {
         let boardID = req.params.id;
         await Board.findByIdAndDelete({_id : boardID});
