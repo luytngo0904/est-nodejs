@@ -1,13 +1,19 @@
 # Training NodeJS
 
+## Required
+ - NodeJS >= v10.0
+ - MongoDB
+
 ## Install
 
 > npm install
 
-## Start
-
+## How to start
+- Create .env like .env.example
 > npm start
 
-## Required
- - NodeJS >= v10.0
- - MongoDB
+## How to build
+Run 
+> bash build.sh
+
+A file with name **est-nodejs.tar.gz** will be created
