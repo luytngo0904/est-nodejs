@@ -5,6 +5,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var fs = require("fs");
 var pathFs = require("path");
+require("./lib/process");
 
 var indexRouter = require("./routes/index");
 var testRouter = require("./routes/test");
@@ -24,23 +25,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-
-app.use("/api/", indexRouter);
-app.use("/test", testRouter);
+app.use("/", indexRouter);
+app.use("/api/test", testRouter);
 app.use("/api/boards", boardRouter);
 
-var models_path = pathFs.join(__dirname, 'models');
+var models_path = pathFs.join(__dirname, "models");
 
 var requiredFile = function (path, regex) {
   const files = fs.readdirSync(path);
   files.forEach((file) => {
-    const newPath = path + '/' + file;
+    const newPath = path + "/" + file;
     const stat = fs.statSync(newPath);
-    if (stat.isFile()){
+    if (stat.isFile()) {
       if (regex.test(file)) {
         require(newPath);
-      };
-    };
+      }
+    }
   });
 };
 

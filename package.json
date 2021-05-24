@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "clean": "rimraf dist",
+    "start": "nodemon ./bin/www",
+    "build": "rimraf dist/ && babel src --out-dir dist/src --ignore node_modules --copy-files"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -23,6 +25,36 @@
     "nodemailer": "^6.6.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.2",
+    "babel-preset-minify": "^0.5.1",
     "nodemon": "^2.0.7"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "useBuiltIns": "usage",
+          "corejs": "3.6.5",
+          "targets": {
+            "node": "current"
+          }
+        }
+      ],
+      [
+        "minify",
+        {
+          "builtIns": false,
+          "mangle": {
+            "keepFnName": false
+          },
+          "deadcode": {
+            "keepFnName": false
+          }
+        }
+      ]
+    ]
   }
 }
