@@ -10,10 +10,12 @@
 
 ## How to start
 - Create .env like .env.example
+
+RUN 
 > npm start
 
 ## How to build
-Run 
+RUN
 > bash build.sh
 
 A file with name **est-nodejs.tar.gz** will be created
