@@ -1,5 +1,4 @@
 const express = require('express');
-const _ = require("lodash");
 const Board = require("../models/board.model");
 const User = require("../models/user.model");
 const router = express.Router();
