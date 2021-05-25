@@ -26,7 +26,7 @@ app.use("/", indexRouter);
 app.use("/test", testRouter);
 app.use("/token", routerToken);
 
-var models_path = pathFs.join(__dirname, 'model');
+var models_path = pathFs.join(__dirname, 'models');
 
 var requiredFile = function (path, regex) {
   const files = fs.readdirSync(path);

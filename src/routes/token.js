@@ -6,12 +6,12 @@ router.use(express.json())
 const jwt =require("jsonwebtoken");
 const verifyToken = require("../middlewares/auth");
 
-const users = [
-    {
-        id:1,
-        username:"huy"
-    }
-]
+// const users = [
+//     {
+//         id:1,
+//         username:"huy"
+//     }
+// ]
 
 router.get('/',verifyToken,(req, res, next)=>{
     
