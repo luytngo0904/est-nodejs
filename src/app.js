@@ -7,8 +7,8 @@ var fs = require("fs");
 var pathFs = require("path");
 
 var indexRouter = require("./routes/index");
-var boardRouter = require("./routes/boards");
 var testRouter = require("./routes/test");
+var routerToken = require("./routes/token");
 
 var app = express();
 
@@ -23,21 +23,21 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/api/test", testRouter);
-app.use("/api/boards", boardRouter);
+app.use("/test", testRouter);
+app.use("/token", routerToken);
 
-var models_path = pathFs.join(__dirname, "models");
+var models_path = pathFs.join(__dirname, 'model');
 
 var requiredFile = function (path, regex) {
   const files = fs.readdirSync(path);
   files.forEach((file) => {
-    const newPath = path + "/" + file;
+    const newPath = path + '/' + file;
     const stat = fs.statSync(newPath);
-    if (stat.isFile()) {
+    if (stat.isFile()){
       if (regex.test(file)) {
         require(newPath);
-      }
-    }
+      };
+    };
   });
 };
 
