@@ -5,7 +5,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "start": "nodemon ./bin/www",
-    "build": "rimraf dist/ && babel src --out-dir dist/src --ignore node_modules --copy-files"
+    "build": "rimraf dist/ && babel src --out-dir dist/src --ignore node_modules --copy-files",
+    "build-server": "npm install && rimraf dist/ && babel . --out-dir dist/ --ignore node_modules --copy-files"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
