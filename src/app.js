@@ -9,6 +9,8 @@ var pathFs = require("path");
 var indexRouter = require("./routes/index");
 var boardRouter = require("./routes/boards");
 var testRouter = require("./routes/test");
+var routerList = require("./routes/lists")
+var routerTask = require("./routes/tasks")
 
 var app = express();
 
@@ -25,6 +27,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/api/test", testRouter);
 app.use("/api/boards", boardRouter);
+app.use("/api/lists", routerList);
+app.use("/api/tasks", routerList);
 
 var models_path = pathFs.join(__dirname, "models");
 
