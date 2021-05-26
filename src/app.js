@@ -8,7 +8,8 @@ var pathFs = require("path");
 
 var indexRouter = require("./routes/index");
 var testRouter = require("./routes/test");
-var routerToken = require("./routes/token");
+var boardRouter = require("./routes/boards")
+var tokenRouter = require("./routes/token");
 
 var app = express();
 
@@ -23,9 +24,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/test", testRouter);
-app.use("/token", routerToken);
-
+app.use("/token", tokenRouter);
+app.use("/api/test", testRouter);
+app.use("/api/boards", boardRouter);
 var models_path = pathFs.join(__dirname, 'models');
 
 var requiredFile = function (path, regex) {

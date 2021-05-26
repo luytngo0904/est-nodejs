@@ -21,4 +21,4 @@ RUN
 A file with name **est-nodejs.tar.gz** will be created
 
 ## How to test token
-To check the function abc is working fine or not. You need to give it a reasonable input. I already have sample data available at (routers/token.js) on line 9.
+To check the function token is working fine or not. You need to give it a reasonable input. I already have sample data available at (routers/token.js) on line 9.

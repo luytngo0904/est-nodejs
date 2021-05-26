@@ -14,9 +14,10 @@ const verifyToken = (req, res, next)=>{
         console.log(decode);
         next();
     } catch (error) {
-        console.log(error);
+        console.log("error", error);
         res.status(403).json({
-            error
+            error,
+            message : "token is not valid!",
         })        
     }
 
