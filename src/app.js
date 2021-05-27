@@ -28,7 +28,7 @@ app.use("/", indexRouter);
 app.use("/api/test", testRouter);
 app.use("/api/boards", boardRouter);
 app.use("/api/lists", routerList);
-app.use("/api/tasks", routerList);
+app.use("/api/tasks", routerTask);
 
 var models_path = pathFs.join(__dirname, "models");
 
