@@ -10,6 +10,18 @@ const boardSchema = new Schema({
         type : Schema.Types.ObjectId,
         ref : "user"
     },
+    role_in_board : [
+        {
+            userID : {
+                type : Schema.Types.ObjectId,
+                ref : "user"
+            },
+            role : {
+                type : String,
+                default : "member"
+            }
+        }
+    ]
 }, {
     timestamps: true
 });

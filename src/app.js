@@ -8,8 +8,8 @@ var pathFs = require("path");
 
 var indexRouter = require("./routes/index");
 var testRouter = require("./routes/test");
-var boardRouter = require("./routes/boards");
-var authRouter = require("./routes/auth");
+var boardRouter = require("./routes/boards")
+var tokenRouter = require("./routes/token");
 
 var app = express();
 
@@ -23,11 +23,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/api/", indexRouter);
-app.use("/test", testRouter);
-app.use("/api/boards", boardRouter);
-app.use("/api/auth", authRouter)
-
+app.use("/", indexRouter);
+app.use("/token", tokenRouter);
+app.use("/api/test", testRouter);
+app.use("/api/boards", verifyToken ,boardRouter);
 var models_path = pathFs.join(__dirname, 'models');
 
 var requiredFile = function (path, regex) {
