@@ -11,8 +11,10 @@ const verifyToken = (req, res, next)=>{
     
     try {
        const decode =  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-        console.log(decode);
+       req.decode = decode 
+       console.log("decode",decode);
         next();
+  
     } catch (error) {
         console.log("error", error);
         res.status(403).json({
@@ -20,7 +22,5 @@ const verifyToken = (req, res, next)=>{
             message : "token is not valid!",
         })        
     }
-
-
 }
 module.exports = verifyToken;

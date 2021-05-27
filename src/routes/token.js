@@ -6,16 +6,19 @@ router.use(express.json())
 const jwt =require("jsonwebtoken");
 const verifyToken = require("../middlewares/auth");
 
-// const users = [
-//     {
-//         id:1,
-//         username:"huy"
-//     }
-// ]
+// ở đây ta đang làm data giả để test
+// chừ phải lấy data bên m bỏ vào cho no chạy
+const users = [
+    {
+        id:1,
+        username:"huy"
+    }
+]
 
 router.get('/',verifyToken,(req, res, next)=>{
-    
-    res.json({posts:"chấp nhận token!"})
+    // console.log("verifyToken",verifyToken.decode)
+    // res.json({posts:"chấp nhận token!"})
+
 })
 router.post('/',(req, res)=>{
     
