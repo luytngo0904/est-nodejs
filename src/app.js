@@ -10,6 +10,7 @@ var indexRouter = require("./routes/index");
 var testRouter = require("./routes/test");
 var boardRouter = require("./routes/boards")
 var tokenRouter = require("./routes/token");
+const verifyToken = require("./middlewares/auth");
 
 var app = express();
 
