@@ -83,7 +83,7 @@ router.put("/:id", permission.hasOwnerBoard, validator.validateBoard(), async fu
     }
 });
 
-delete board
+// delete board
 router.delete("/:id", permission.hasOwnerBoard, async function(req, res, next){
     try {
         let boardID = req.params.id;
