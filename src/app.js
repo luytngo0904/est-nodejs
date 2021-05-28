@@ -7,13 +7,9 @@ const logger = require("morgan");
 const fs = require("fs");
 const pathFs = require("path");
 
-var testRouter = require("./routes/test");
 const indexRouter = require("./routes/index");
 const boardRouter = require("./routes/boards");
 const verifyToken = require("./middlewares/auth");
-var listRouter = require("./routes/lists")
-var taskRouter = require("./routes/tasks")
-
 
 const app = express();
 
@@ -27,13 +23,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(pathFs.join(__dirname, "public")));
 
-
-var models_path = pathFs.join(__dirname, "models");
 app.use("/", verifyToken, indexRouter);
 app.use("/api/boards", verifyToken, boardRouter);
-app.use("/api/test", verifyToken,testRouter);
-app.use("/api/lists",verifyToken, routerList);
-app.use("/api/tasks",verifyToken, routerTask);
 
 // eslint-disable-next-line camelcase
 const models_path = pathFs.join(__dirname, "models");
