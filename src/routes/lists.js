@@ -63,7 +63,7 @@ router.post("/", validator.validateBoard(), async (req, res) => {
   }
 });
 
-// update list
+// update list by id
 router.put("/:id", validator.validateList(), async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -92,7 +92,7 @@ router.put("/:id", validator.validateList(), async (req, res) => {
     });
   }
 });
-
+// delete list by id
 router.delete("/:id", async (req, res) => {
   try {
     const listID = req.params.id;
