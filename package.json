@@ -6,7 +6,12 @@
     "clean": "rimraf dist",
     "start": "nodemon ./bin/www",
     "build": "rimraf dist/ && babel src --out-dir dist/src --ignore node_modules --copy-files",
-    "build-server": "npm install && rimraf dist/ && babel . --out-dir dist/ --ignore node_modules --copy-files"
+    "build-server": "npm install && rimraf dist/ && babel . --out-dir dist/ --ignore node_modules --copy-files",
+    "lint": "npm run prettier:check && eslint . ",
+    "lint-fix": "npm run prettier:fix && eslint . --fix",
+    "prettier:check": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "prepare": "husky install"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -19,8 +24,6 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.1",
-    "jwt-decode": "^3.1.2",
-    "lodash": "^4.17.21",
     "mongoose": "^5.12.7",
     "morgan": "~1.9.1"
   },
@@ -29,7 +32,12 @@
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.2",
     "babel-preset-minify": "^0.5.1",
-    "nodemon": "^2.0.7"
+    "eslint": "^7.27.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.3",
+    "husky": "^6.0.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.0"
   },
   "babel": {
     "presets": [

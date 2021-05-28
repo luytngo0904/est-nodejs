@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
@@ -29,7 +30,7 @@ const userSchema = new Schema({
 userSchema.set("toJSON", {
   virtuals: true,
   versionKey: false,
-  transform: function (doc, ret) {
+  transform(doc, ret) {
     delete ret._id;
   },
 });
