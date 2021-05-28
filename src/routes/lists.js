@@ -39,6 +39,13 @@ router.get("/:id", async (req, res) => {
       message: "get list by id fail!",
     });
   }
+  // } catch (error) {
+  //   console.log("Error: ", error);
+  //   res.status(500).json({
+  //     error,
+  //     message: "get list by id fail!",
+  //   });
+  // }
 });
 // create list
 router.post("/", validator.validateBoard(), async (req, res) => {
