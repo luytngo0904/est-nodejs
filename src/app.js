@@ -1,47 +1,53 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-var fs = require("fs");
-var pathFs = require("path");
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable global-require */
+const createError = require("http-errors");
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const fs = require("fs");
+const pathFs = require("path");
 
-var indexRouter = require("./routes/index");
 var testRouter = require("./routes/test");
-var routerList = require("./routes/lists")
-var routerTask = require("./routes/tasks")
+const indexRouter = require("./routes/index");
+const boardRouter = require("./routes/boards");
+const verifyToken = require("./middlewares/auth");
+var listRouter = require("./routes/lists")
+var taskRouter = require("./routes/tasks")
 
-var app = express();
+
+const app = express();
 
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
+app.set("views", pathFs.join(__dirname, "views"));
 app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(pathFs.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/token", tokenRouter);
-app.use("/api/test", testRouter);
-app.use("/api/boards", boardRouter);
-app.use("/api/lists", routerList);
-app.use("/api/tasks", routerTask);
 
 var models_path = pathFs.join(__dirname, "models");
+app.use("/", verifyToken, indexRouter);
+app.use("/api/boards", verifyToken, boardRouter);
+app.use("/api/test", verifyToken,testRouter);
+app.use("/api/lists",verifyToken, routerList);
+app.use("/api/tasks",verifyToken, routerTask);
 
-var requiredFile = function (path, regex) {
+// eslint-disable-next-line camelcase
+const models_path = pathFs.join(__dirname, "models");
+
+const requiredFile = (path, regex) => {
   const files = fs.readdirSync(path);
   files.forEach((file) => {
-    const newPath = path + '/' + file;
+    const newPath = `${path}/${file}`;
     const stat = fs.statSync(newPath);
-    if (stat.isFile()){
+    if (stat.isFile()) {
       if (regex.test(file)) {
         require(newPath);
-      };
-    };
+      }
+    }
   });
 };
 
@@ -49,12 +55,13 @@ const reg = /(.*)\.(model)\.(js$)/;
 requiredFile(models_path, reg);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};

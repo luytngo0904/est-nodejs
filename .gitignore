@@ -103,4 +103,8 @@ dist
 # TernJS port file
 .tern-port
 
+# Package lock file
 package-lock.json
+
+# File after run script build
+est-nodejs.tar.gz
