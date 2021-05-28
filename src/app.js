@@ -7,15 +7,10 @@ const logger = require("morgan");
 const fs = require("fs");
 const pathFs = require("path");
 
-<<<<<<< HEAD
 var indexRouter = require("./routes/index");
 var testRouter = require("./routes/test");
 var boardRouter = require("./routes/boards")
 var tokenRouter = require("./routes/token");
-=======
-const indexRouter = require("./routes/index");
-const boardRouter = require("./routes/boards");
->>>>>>> master
 const verifyToken = require("./middlewares/auth");
 
 const app = express();
