@@ -7,10 +7,10 @@ const logger = require("morgan");
 const fs = require("fs");
 const pathFs = require("path");
 
-var indexRouter = require("./routes/index");
-var testRouter = require("./routes/test");
-var boardRouter = require("./routes/boards")
-var tokenRouter = require("./routes/token");
+const indexRouter = require("./routes/index");
+const boardRouter = require("./routes/boards");
+const listRouter = require("./routes/lists");
+const taskRouter = require("./routes/tasks");
 const verifyToken = require("./middlewares/auth");
 
 const app = express();
@@ -27,6 +27,8 @@ app.use(express.static(pathFs.join(__dirname, "public")));
 
 app.use("/", verifyToken, indexRouter);
 app.use("/api/boards", verifyToken, boardRouter);
+app.use("/api/lists", verifyToken, listRouter);
+app.use("/api/tasks", verifyToken, taskRouter);
 
 // eslint-disable-next-line camelcase
 const models_path = pathFs.join(__dirname, "models");
