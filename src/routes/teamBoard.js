@@ -42,12 +42,11 @@ router.post("/", validator.validateTeamBoard() , async (req, res, next) => {
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
         }
-        const userID = req.decode.sub;
         const teamBoard = await TeamBoard.create({
             name : req.body.name,
             member : [
                 {
-                    userID : userID,
+                    userID : req.decode.sub,
                     role : "owner"
                 }
             ]

@@ -12,15 +12,15 @@ const boardSchema = new Schema(
       type: Number,
     },
     role_in_board : [
-        {
-            userID : {
-              type : Number,
-            },
-            role : {
-                type : String,
-                default : "member"
-            }
+      {
+        userID : {
+          type : Number,
+        },
+        role : {
+            type : String,
+            default : "member"
         }
+      }
     ]
 }, {
     timestamps: true
