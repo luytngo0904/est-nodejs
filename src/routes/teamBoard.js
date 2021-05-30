@@ -59,7 +59,7 @@ router.post("/", validator.validateTeamBoard() , async (req, res, next) => {
     }
 });
 
-router.put("/:id",permission.checkPermissionTeamBoard(["owner"]), validator.validateTeamBoard(), async (req, res, next) => {
+router.put("/:id",permission.hasOwnerBoard, validator.validateTeamBoard(), async (req, res, next) => {
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -81,7 +81,7 @@ router.put("/:id",permission.checkPermissionTeamBoard(["owner"]), validator.vali
     }
 });
 
-router.delete("/:id", permission.checkPermissionTeamBoard(["owner"]), validator.validateTeamBoard(), async (req, res, next ) => {
+router.delete("/:id", permission.hasOwnerBoard, validator.validateTeamBoard(), async (req, res, next ) => {
     try {
         const teamBoardID = req.params.id;
         await TeamBoard.findByIdAndDelete(teamBoardID);
@@ -98,7 +98,7 @@ router.delete("/:id", permission.checkPermissionTeamBoard(["owner"]), validator.
     }
 })
 
-router.post("/invite",  permission.checkPermissionTeamBoard(["owner", "admin"]), async (req, res, next) => {
+router.post("/invite",  permission.hasAdminBoard, async (req, res, next) => {
     try {
         const { email, teamBoardID } = req.body;
         const user = await User.findOne({email});
@@ -130,7 +130,7 @@ router.post("/invite",  permission.checkPermissionTeamBoard(["owner", "admin"]),
     }
 });
 
-router.post("/remove", permission.checkPermissionTeamBoard(["owner", "admin"]), async (req, res, next) => {
+router.post("/remove", permission.hasAdminBoard, async (req, res, next) => {
     try {
         const { email, teamBoardID } = req.body;
         const user = await User.findOne({email});
