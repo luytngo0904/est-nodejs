@@ -1,6 +1,5 @@
 const express = require('express');
 const Board = require("../models/board.model");
-const User = require("../models/user.model");
 const router = express.Router();
 const {validationResult} = require('express-validator');
 const validator = require("../middlewares/validator");
@@ -50,6 +49,7 @@ router.post("/", validator.validateBoard(), async (req, res) => {
       return res.status(422).json({ errors: errors.array() });
     }
     const board = await Board.create(req.body);
+    console.log(req.body, '[req.body]');
     return res.status(200).json({
       data: board,
       message: "created board successfully !",
