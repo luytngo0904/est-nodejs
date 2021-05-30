@@ -1,14 +1,12 @@
 var express = require("express");
 var router = express.Router();
 const TeamBoard = require("../models/teamBoard.model");
-const User = require("../models/user.model");
 const {validationResult} = require('express-validator');
 const validator = require("../middlewares/validator");
 const permission = require("../middlewares/permission");
 router.get("/", async function (req, res, next) {
     try {
         const teamBoards = await TeamBoard.find()
-        .populate({ path : "member", populate : { path : "userID"}});
         res.status(200).json({
             data : teamBoards,
             message : "get all team successfully"
@@ -25,7 +23,6 @@ router.get("/:id", async (req, res, next) => {
     try {
         const teamBoardID = req.params.id;
         const teamBoard = await TeamBoard.findById(teamBoardID)
-        .populate({ path : "member", populate : { path : "userID"}});
         res.status(200).json({
             data : teamBoard,
             message : "get all team successfully"
@@ -45,7 +42,17 @@ router.post("/", validator.validateTeamBoard() , async (req, res, next) => {
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
         }
-        const teamBoard = await TeamBoard.create(req.body);
+        const userID = req.decode.sub;
+        const teamBoard = await TeamBoard.create({
+            name : req.body.name,
+            member : [
+                {
+                    userID : userID,
+                    role : "owner"
+                }
+            ]
+        });
+        await
         res.status(200).json({
             data: teamBoard,
             message : "created team successfully !",
@@ -98,12 +105,11 @@ router.delete("/:id", permission.hasOwnerBoard, validator.validateTeamBoard(), a
     }
 })
 
-router.post("/invite",  permission.hasAdminBoard, async (req, res, next) => {
+router.post("/invite", permission.hasAdminBoard ,async (req, res, next) => {
     try {
-        const { email, teamBoardID } = req.body;
-        const user = await User.findOne({email});
+        const { userID ,teamBoardID } = req.body;
         const teamBoard = await TeamBoard.findOne({_id : teamBoardID});
-        const checkMemberExists = teamBoard.member.find((el) => el.userID.toString() === user._id.toString());
+        const checkMemberExists = teamBoard.member.find((el) => el.userID === parseInt(userID));
         if(checkMemberExists){
             return res.status(400).json({
                 error : "",
@@ -113,7 +119,7 @@ router.post("/invite",  permission.hasAdminBoard, async (req, res, next) => {
         await TeamBoard.findOneAndUpdate({_id : teamBoardID}, {
             $push : {
                 member : {
-                    userID : user._id
+                    userID
                 }
             }
         })
@@ -123,6 +129,7 @@ router.post("/invite",  permission.hasAdminBoard, async (req, res, next) => {
         })
       
     } catch (error) {
+        console.log(error, '[error]');
         res.status(400).json({
             error,
             message : "invite member fail"
@@ -132,10 +139,9 @@ router.post("/invite",  permission.hasAdminBoard, async (req, res, next) => {
 
 router.post("/remove", permission.hasAdminBoard, async (req, res, next) => {
     try {
-        const { email, teamBoardID } = req.body;
-        const user = await User.findOne({email});
+        const { userID, teamBoardID } = req.body;
         const teamBoard = await TeamBoard.findOne({_id : teamBoardID});
-        const checkMemberExists = teamBoard.member.find((el) => el.userID.toString() === user._id.toString());
+        const checkMemberExists = teamBoard.member.find((el) => el.userID === parseInt(userID));
         if(!checkMemberExists){
             return res.status(400).json({
                 error : "",
@@ -145,7 +151,7 @@ router.post("/remove", permission.hasAdminBoard, async (req, res, next) => {
         await TeamBoard.findOneAndUpdate({_id : teamBoardID}, {
             $pull : {
                 member : {
-                    userID : user._id
+                    userID
                 }
             }
         })

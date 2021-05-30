@@ -3,7 +3,6 @@ const { check } = require("express-validator");
 module.exports.validateBoard = () => {
     return [ 
         check('name', 'name does not Empty').not().isEmpty(),
-        check('created_by', 'created_by dose not Empty').not().isEmpty(),
     ]; 
 }
 
@@ -18,9 +17,8 @@ module.exports.validateAuth = () => {
     ]
 }
    
-module.exports.validateBoard = () => [
+module.exports.validateTeamBoard = () => [
   check("name", "name does not Empty").not().isEmpty(),
-  check("created_by", "created_by dose not Empty").not().isEmpty(),
 ];
 
 module.exports.validateList = () => [

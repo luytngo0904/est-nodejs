@@ -9,14 +9,12 @@ const boardSchema = new Schema(
       require: true,
     },
     created_by: {
-      type: Schema.Types.ObjectId,
-      ref: "user",
+      type: Number,
     },
     role_in_board : [
         {
             userID : {
-                type : Schema.Types.ObjectId,
-                ref : "user"
+              type : Number,
             },
             role : {
                 type : String,

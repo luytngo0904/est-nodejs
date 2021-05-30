@@ -12,6 +12,7 @@ const boardRouter = require("./routes/boards");
 const listRouter = require("./routes/lists");
 const taskRouter = require("./routes/tasks");
 const verifyToken = require("./middlewares/auth");
+const teamBoardRouter = require("./routes/teamBoard")
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use("/", verifyToken, indexRouter);
 app.use("/api/boards", verifyToken, boardRouter);
 app.use("/api/lists", verifyToken, listRouter);
 app.use("/api/tasks", verifyToken, taskRouter);
+app.use("/api/team-boards", verifyToken, teamBoardRouter)
 
 // eslint-disable-next-line camelcase
 const models_path = pathFs.join(__dirname, "models");
