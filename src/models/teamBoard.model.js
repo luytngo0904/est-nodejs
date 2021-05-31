@@ -2,31 +2,26 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
-const boardSchema = new Schema(
+const teamBoardSchema = new Schema(
   {
     name: {
       type: String,
       require: true,
     },
-    created_by: {
-      type: Number,
-    },
-    role_in_board : [
-      {
-        userID : {
-          type : Number,
-        },
-        role : {
+    member : [
+        {
+          userID : Number,
+          role  : {
             type : String,
             default : "member"
+          }
         }
-      }
     ]
 }, {
     timestamps: true
 });
 
-boardSchema.set("toJSON", {
+teamBoardSchema.set("toJSON", {
   virtuals: true,
   versionKey: false,
   transform(doc, ret) {
@@ -34,5 +29,5 @@ boardSchema.set("toJSON", {
   },
 });
 
-const Board = mongoose.model("board", boardSchema);
-module.exports = Board;
+const TeamBoard = mongoose.model("teamBoard", teamBoardSchema);
+module.exports = TeamBoard;
